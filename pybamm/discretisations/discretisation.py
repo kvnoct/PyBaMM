@@ -246,6 +246,9 @@ class Discretisation(object):
             new_length_scales[domain] = new_scale
         model_disc._length_scales = new_length_scales
 
+        # Remove Scalar events from model
+        model_disc.events = [event for event in model_disc.events if pybamm.is_constant(event.expression) == False]        
+        
         # Check that resulting model makes sense
         if check_model:
             pybamm.logger.verbose("Performing model checks for {}".format(model.name))
